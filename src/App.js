@@ -1,23 +1,143 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import "antd/dist/antd.css";
+import Section from './components/Section'
+import { useState } from "react"
+const TASKS = [
+  {
+    id: 1,
+    title: "Task Title 01",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "work",
+    status: 0,
+  },
+  {
+    id: 2,
+    title: "Task Title 02",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "hobby",
+    status: 0,
+  },
+  {
+    id: 3,
+    title: "Task Title 03",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "work",
+    status: 0,
+  },
+  {
+    id: 4,
+    title: "Task Title 04",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "study",
+    status: 1,
+  },
+  {
+    id: 5,
+    title: "Task Title 05",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "hobby",
+    status: 1,
+  },
+  {
+    id: 6,
+    title: "Task Title 06",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "study",
+    status: 1,
+  },
+  {
+    id: 7,
+    title: "Task Title 07",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "hobby",
+    status: 2,
+  },
+  {
+    id: 8,
+    title: "Task Title 08",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "hobby",
+    status: 2,
+  },
+  {
+    id: 9,
+    title: "Task Title 09",
+    description:
+      "As a user , I can perform multiple task on the platform, Log in , Sign in , submit a new work ,and complete a task !",
+    ddl: "28/08/2020",
+    tag: "work",
+    status: 2,
+  },
+];
 function App() {
+  // ADD state for tasks
+  const [tasks, setTasks] = useState(TASKS)
+
+ //decrement task.status
+  const toPreviousStep = (id) => {
+    setTasks((tasks) => {
+        return tasks.map((task) => {
+          if(task.id === id){
+            return {...task, status: task.status - 1}
+          }
+          return task
+        })
+      })
+  }
+  //increment task.status
+  const toNextStep = (id) => {
+     //setTasks
+     setTasks((tasks) => {
+      return tasks.map((task) => {
+        if(task.id === id){
+          return {...task, status: task.status + 1}
+        }
+        return task
+      })
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="page-content">
+     {/* AddTask */}
+     <div className="container">
+       <div className="content">
+          {/* in data Display only tasks with status 0 */}
+          <Section 
+            title="To Do"
+            toPreviousStep={toPreviousStep}
+            toNextStep={toNextStep}
+            data= {tasks.filter((task) => task.status === 0)}/> 
+          {/* in data Display only tasks with status 1 */}
+          <Section 
+            title="Currently doing"
+            toPreviousStep={toPreviousStep}
+            toNextStep={toNextStep}
+            data= {tasks.filter((task) => task.status === 1)}/>
+          <Section 
+            title="Completed"
+            toPreviousStep={toPreviousStep}
+            toNextStep={toNextStep}
+            data= {tasks.filter((task) => task.status === 2)}/>
+
+       </div>
+     </div>
     </div>
   );
 }
