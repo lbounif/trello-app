@@ -3,6 +3,8 @@ import './App.css';
 import "antd/dist/antd.css";
 import Section from './components/Section'
 import { useState } from "react"
+import AddTask from "./components/AddTask"
+
 const TASKS = [
   {
     id: 1,
@@ -89,6 +91,10 @@ const TASKS = [
 function App() {
   // ADD state for tasks
   const [tasks, setTasks] = useState(TASKS)
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
  //decrement task.status
   const toPreviousStep = (id) => {
@@ -113,9 +119,30 @@ function App() {
       })
     })
   }
+  const newTask = (title, description, ddl, tag) => {
+    setTasks((tasks) => {
+      return [
+        ...tasks, 
+        {
+          title,
+          description,
+          ddl,
+          tag,
+          status: 1,
+          id: Math.floor(Math.random()* 10000)
+        }
+      ]
+    })
+    setShow(false)
+  }
   return (
     <div className="page-content">
      {/* AddTask */}
+     <AddTask
+       newTask={newTask}
+       show={show}
+       handleShow={handleShow}
+       handleClose={handleClose}/>
      <div className="container">
        <div className="content">
           {/* in data Display only tasks with status 0 */}
